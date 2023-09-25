@@ -1,6 +1,5 @@
 package models
 
-import models.Book
 
 class ChildBook(
     override val id: Int,
@@ -10,10 +9,12 @@ class ChildBook(
     override val language: String,
     override val price: Double,
     override val numberOfPages: Int,
+    override var quantity: Int,
     override val inStock: Boolean,
-    val ageRating: Int): Book(id, title, author, genre, language, price, numberOfPages, inStock)
+    private val ageRate: Int): Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock)
 {
-    fun isSuitableForAge(age: Int): Boolean {
-        return age >= ageRating
+    override fun displayBook() {
+        super.displayBook()
+        println("Age Rating: $ageRate")
     }
 }

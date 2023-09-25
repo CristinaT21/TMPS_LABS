@@ -1,7 +1,7 @@
 package services
 
 import models.User
-import databases.IUserDatabase
+import interfaces.IUserDatabase
 
 class AuthService (private val database: IUserDatabase){
     // Create a method to authenticate user

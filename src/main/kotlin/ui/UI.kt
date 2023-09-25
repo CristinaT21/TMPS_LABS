@@ -1,8 +1,8 @@
 package ui
 
+import interfaces.IIdGenerator
 import models.Book
 import models.User
-import utils.IIdGenerator
 import kotlin.io.readLine as readLine1
 
 class UI(private val idGenerator: IIdGenerator) {
@@ -50,6 +50,52 @@ class UI(private val idGenerator: IIdGenerator) {
         if (user != null) {
             println("Bye, ${user.username}!")
         }
+    }
+
+    fun customerChoice(): Int{
+        println("1. View Catalog")
+        println("2. View Book")
+        println("3. Add to Cart")
+        println("4. Remove from Cart")
+        println("5. View Cart")
+        println("6. Order")
+        println("7. Logout")
+        return readLine1()?.toIntOrNull() ?: 0
+    }
+    fun viewTitleAuthor():Pair<String, String>{
+        println("Please enter the book title:")
+        val title: String = readLine1() ?: ""
+        println("Please enter the book author:")
+        val author: String = readLine1() ?: ""
+        return Pair(title, author)
+    }
+    fun choosecopyies(): Int{
+        println("Please enter the number of copies:")
+        return readLine1()?.toIntOrNull() ?: 0
+    }
+    fun getEmailFromUser(): String{
+        println("Please enter your email:")
+        return readLine1() ?: ""
+    }
+    fun getAddressFromUser(): String{
+        println("Please enter your address:")
+        return readLine1() ?: ""
+    }
+    fun validateCart(): Boolean{
+        println("Please enter true if your cart info is valid:")
+        return readLine1()?.toBoolean() ?: false
+    }
+    fun invalidCart(){
+        println("Return and modify what is wrong.")
+    }
+    fun emptyCart(){
+        println("Your cart is empty. Please add some books to your cart before placing an order.")
+    }
+    fun orderPlaced(user: User){
+        println("Order has been placed successfully. Thank you for your order, ${user.username}!")
+    }
+    fun invalidChoice(){
+        println("Invalid choice. Please try again.")
     }
 }
 

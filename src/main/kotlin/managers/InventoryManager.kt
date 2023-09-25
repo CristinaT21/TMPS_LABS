@@ -1,11 +1,8 @@
 package managers
 
-import databases.IBookDatabase
+import interfaces.IBookDatabase
+import interfaces.IInventoryManager
 
-interface IInventoryManager {
-    fun run(){}
-    fun seeInventory(bookDatabase: IBookDatabase){}
-}
 
 class InventoryManager: IInventoryManager {
     override fun run() {

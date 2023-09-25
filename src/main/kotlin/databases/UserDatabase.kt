@@ -1,10 +1,8 @@
 package databases
 
 import models.User
+import interfaces.IUserDatabase
 
-interface IUserDatabase {
-    fun login(username: String, password: String): User?
-}
 class UserDatabase : IUserDatabase {
     // create a user database to be accessed by the services.AuthService
     private val users: MutableMap<String, User> = mutableMapOf()

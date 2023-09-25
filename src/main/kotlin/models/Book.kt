@@ -8,6 +8,7 @@ open class Book(
     open val language: String,
     open val price: Double,
     open val numberOfPages: Int,
+    open var quantity: Int,
     open val inStock: Boolean
 ) {
     // builder pattern
@@ -19,6 +20,7 @@ open class Book(
         var language: String = ""
         var price: Double = 0.0
         var numberOfPages: Int = 0
+        var quantity: Int = 1
         var inStock: Boolean = true
 
         fun id(id: Int) = apply { this.id = id }
@@ -28,24 +30,35 @@ open class Book(
         fun language(language: String) = apply { this.language = language }
         fun price(price: Double) = apply { this.price = price }
         fun numberOfPages(numberOfPages: Int) = apply { this.numberOfPages = numberOfPages }
+        fun quantity(quantity: Int) = apply { this.quantity = quantity }
         fun inStock(inStock: Boolean) = apply { this.inStock = inStock }
 
-        fun build(): Book = Book(id, title, author, genre, language, price, numberOfPages, inStock)
+        fun build(): Book = Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock)
     }
 
-    fun displayBook() {
+    open fun displayBook() {
         println("Title: $title")
         println("Author: $author")
         println("Genre: $genre")
         println("Language: $language")
         println("Number of Pages: $numberOfPages")
         println("Price: $price")
+        println("Left: $quantity")
         println("In Stock: $inStock")
     }
 
+    fun getAvailableQuantity(book: Book): Int {
+        return quantity
+    }
+    fun updateQuantity(book: Book, quantityB: Int) {
+        // update quantity of book
+        book.quantity = quantityB
+    }
+
+    // data class methods
     fun copy(book: Book, bookId: Int): Book {
         // create copy of book of specific id
-        val newBook = Book(
+        return Book(
             id = bookId,
             title = book.title,
             author = book.author,
@@ -53,9 +66,9 @@ open class Book(
             language = book.language,
             price = book.price,
             numberOfPages = book.numberOfPages,
+            quantity = book.quantity,
             inStock = book.inStock
         )
-        return newBook
     }
     override fun equals(other: Any?): Boolean{
         if (this === other) return true
@@ -72,6 +85,9 @@ open class Book(
         var result = title.hashCode()
         result = 31 * result + author.hashCode()
         return result
+    }
+    override fun toString(): String {
+        return "Book(title='$title', author='$author')"
     }
 }
 

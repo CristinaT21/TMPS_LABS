@@ -1,53 +1,54 @@
 package ui
 
 import databases.BookDatabase
+import interfaces.IAdminPage
 import managers.BookManager
 import managers.InventoryManager
 import models.User
+import interfaces.IInventoryViewer
+import interfaces.IInventoryAdder
+import interfaces.ILogout
 
 
-interface IAdminPage {
-    fun run(user: User){}
-}
-
-class AdminPage(private val ui: UI) : IAdminPage {
+class AdminPage(private val ui: UI) : IAdminPage, IInventoryViewer, IInventoryAdder, ILogout {
+    private val bookManager = BookManager()
+    private val inventoryManager = InventoryManager()
     override fun run(user: User) {
         println("Hello ${user.username}!")
     }
-    fun chooseAction(user: User, bookDatabase: BookDatabase): Int {
-
+    fun chooseAction(user: User, bookDatabase: BookDatabase) {
         // loop through choices
-        var loop = true
-        while (loop){
+
+        while (true){
             val choice = ui.adminChoice()
             when (choice) {
-                1 -> {
-                    println("View Inventory")
-                    // print each book and the quantity from InventoryManager
-                    InventoryManager().seeInventory(bookDatabase)
-                }
+                1 -> { viewInventory(bookDatabase) }
 
-                2 -> {
-                    println("Add to Inventory")
-                    // add book to inventory from InventoryManager
-                    val bookIn = ui.addBook()
-                    BookManager().addBook(bookDatabase, bookIn)
-                }
+                2 -> { addInventory(bookDatabase) }
 
-                3 -> {
-                    println("Logout")
-                    loop = false
-                    ui.bye(user)
-                    // logout
-                }
+                3 -> { logout(user)
+                        break }
 
-                else -> {
-                    println("Invalid choice. Please try again.")
-                    return chooseAction(user, bookDatabase)
-                }
+                else -> { ui.invalidChoice() }
             }
         }
-//        return choice
-        return 0
+    }
+
+    override fun viewInventory(bookDatabase: BookDatabase) {
+        println("View Inventory")
+        inventoryManager.seeInventory(bookDatabase)
+    }
+    override fun addInventory(bookDatabase: BookDatabase) {
+        println("Add to Inventory")
+        // add book to inventory from InventoryManager
+        val bookIn = ui.addBook()
+        bookManager.addBook(bookDatabase, bookIn)
+    }
+    override fun logout(user: User) {
+        println("Logout")
+        ui.bye(user)
     }
 }
+
+// Interface Segregation Principle
+// The AdminPage class implements the IInventoryViewer, IInventoryAdder, and ILogout interfaces.

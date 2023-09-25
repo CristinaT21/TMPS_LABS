@@ -1,9 +1,7 @@
 package utils
 
-interface IIdGenerator {
-    fun generateId(): Int
-    fun currentId(): Int
-}
+import interfaces.IIdGenerator
+
 
 class IdGenerator: IIdGenerator {
     private var currentId = 1

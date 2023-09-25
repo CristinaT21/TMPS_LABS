@@ -1,15 +1,8 @@
 package databases
 
+import interfaces.IBookDatabase
 import models.Book
-import utils.IIdGenerator
-
-interface IBookDatabase {
-    fun addBook(book: Book)
-    fun removeBook(book: Book)
-    fun seeAllBooks()
-    fun countBooks(title: String, author: String): Int
-    fun getBooks(): Map<Int, Book>
-}
+import interfaces.IIdGenerator
 
 class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
     // Create a map to store books by their ID
@@ -26,6 +19,7 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             language = "English",
             price = 9.69,
             numberOfPages = 310,
+            quantity = 5,
             inStock = true
         )
 
@@ -37,6 +31,7 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             language = "English",
             price = 8.59,
             numberOfPages = 300,
+            quantity = 3,
             inStock = true
         )
 
@@ -48,6 +43,7 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             language = "English",
             price = 8.99,
             numberOfPages = 320,
+            quantity = 2,
             inStock = true
         )
 
@@ -59,6 +55,7 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             language = "English",
             price = 9.99,
             numberOfPages = 400,
+            quantity = 1,
             inStock = true
         )
 
@@ -70,9 +67,20 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             language = "English",
             price = 7.99,
             numberOfPages = 240,
+            quantity = 1,
             inStock = true
         )
-
+        books[idGenerator.generateId()] = Book(
+            idGenerator.currentId(),
+            "Me",
+            "CT",
+            genre = "Biography",
+            language = "English",
+            price = 9.99,
+            numberOfPages = 210,
+            quantity = 5,
+            inStock = true
+        )
     }
 
     override fun countBooks(title: String, author: String): Int {
@@ -108,6 +116,9 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
     }
     override fun getBooks(): Map<Int, Book> {
         return books
+    }
+    override fun getBookDetails(title: String, author: String): Book {
+        return books.values.find { it.title == title && it.author == author }!!
     }
 }
 

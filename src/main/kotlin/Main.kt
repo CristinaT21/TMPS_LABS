@@ -1,8 +1,4 @@
-import databases.BookDatabase
-import utils.IdGenerator
-
 fun main() {
-    val app = App(bookDatabase = (BookDatabase(idGenerator = IdGenerator())))
+    val app = App()
     app.run()
 }
-
