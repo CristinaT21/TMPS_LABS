@@ -3,7 +3,7 @@ package utils
 import interfaces.IIdGenerator
 
 
-class IdGenerator: IIdGenerator {
+object IdGenerator: IIdGenerator {
     private var currentId = 1
 
     override fun generateId(): Int {

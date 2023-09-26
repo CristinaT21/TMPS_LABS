@@ -4,7 +4,7 @@ import models.Cart
 import models.Book
 import interfaces.ICartManager
 
-class CartManager(private val cart: Cart): ICartManager {
+class CartManager(val cart: Cart): ICartManager {
     override fun addBook(book: Book, quantity: Int) {
         val availableQuantity = book.getAvailableQuantity(book)
         if (availableQuantity >= quantity) {

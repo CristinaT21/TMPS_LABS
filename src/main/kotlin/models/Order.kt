@@ -5,7 +5,7 @@ import managers.CartManager
 import databases.BookDatabase
 import interfaces.ICartManager
 
-class Order(private val cartManager: ICartManager, val cart: Cart, val customer: User, val ui: UI, val bookDatabase: BookDatabase) {
+class Order(val cartManager: ICartManager, val cart: Cart, val customer: User, val ui: UI, val bookDatabase: BookDatabase) {
     fun place() {
         if (cart.items.isEmpty()) {
             ui.emptyCart()
@@ -15,7 +15,6 @@ class Order(private val cartManager: ICartManager, val cart: Cart, val customer:
             for (item in cart.items) {
                 println(item)
             }
-            println(cart.items)
             // Ask for email and address
             val email = ui.getEmailFromUser()
             val address = ui.getAddressFromUser()
@@ -35,4 +34,5 @@ class Order(private val cartManager: ICartManager, val cart: Cart, val customer:
             }
         }
     }
+
 }

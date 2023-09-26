@@ -9,28 +9,10 @@ import models.Cart
 import models.Order
 import models.User
 
-class CustomerPage(private val ui: UI): ICustomerPage, IInventoryViewer,
+class CustomerPage(private val ui: UI, cartManager: CartManager): ICustomerPage, IInventoryViewer,
     IBookInfoViewer, ICartAdder, ICartRemover, ICartViewer, IOrderPlacer, ILogout {
     override fun run(user: User) {
         println("Hello ${user.username}!")
-    }
-    fun chooseActions(user: User, bookDatabase: BookDatabase, cart: Cart){
-        // loop through choices
-        val cartManager = CartManager(cart)
-        while (true) {
-            val choice = ui.customerChoice()
-            when (choice) {
-                1 -> { viewInventory(bookDatabase) }
-                2 -> { viewBookInfo(bookDatabase) }
-                3 -> { addToCart(cartManager, bookDatabase) }
-                4 -> { removeFromCart(cartManager, bookDatabase) }
-                5 -> { viewCart(cartManager) }
-                6 -> { placeOrder(cart, user, bookDatabase) }
-                7 -> { logout(user)
-                         break  }
-                else -> { ui.invalidChoice() }
-            }
-        }
     }
     override fun viewInventory(bookDatabase: BookDatabase) {
         println("View Catalog")
@@ -42,7 +24,7 @@ class CustomerPage(private val ui: UI): ICustomerPage, IInventoryViewer,
         val titleAuthor = ui.viewTitleAuthor()
         val book = bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second)
         if (book != null) {
-            println(book.displayBook())
+            book.displayBook()
         } else {
             println("Book not found.")
         }
@@ -68,11 +50,11 @@ class CustomerPage(private val ui: UI): ICustomerPage, IInventoryViewer,
     override fun placeOrder(cart: Cart, user: User, bookDatabase: BookDatabase) {
         println("Order")
         // place order
-        Order(CartManager(Cart()), cart, user, ui, bookDatabase).place()
+        Order(CartManager(cart), cart, user, ui, bookDatabase).place()
     }
     override fun logout(user: User) {
         println("Logout")
-        ui.bye(user)
+        println("Bye, ${user.username}!")
     }
 }
 

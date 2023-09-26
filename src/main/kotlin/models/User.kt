@@ -1,3 +1,6 @@
 package models
 
-data class User(val username: String, val password: String)
+import interfaces.IUser
+
+class User(override val username: String, override val password: String): IUser() {
+}

@@ -1,5 +1,5 @@
 package models
 
-class Cart {
+object Cart {
     val items: MutableMap<Book, Int> = mutableMapOf()
 }

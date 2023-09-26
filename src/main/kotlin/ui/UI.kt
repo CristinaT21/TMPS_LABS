@@ -5,7 +5,7 @@ import models.Book
 import models.User
 import kotlin.io.readLine as readLine1
 
-class UI(private val idGenerator: IIdGenerator) {
+class UI() {
     fun run() {
         println("Welcome to the Bookstore!")
 
@@ -19,37 +19,34 @@ class UI(private val idGenerator: IIdGenerator) {
         return Pair(username, password)
     }
 
-    fun addBook(): Book {
-        val builder = Book.BookBuilder()
-            .id(idGenerator.currentId())
+    fun addBookInfo(): Array<Any> {
         println("Please enter the title of the book:")
-        builder.title = readLine1() ?: ""
+        val title: String = readLine1() ?: ""
         println("Please enter the author of the book:")
-        builder.author = readLine1() ?: ""
+        val author: String = readLine1() ?: ""
         println("Please enter the genre of the book:")
-        builder.genre = readLine1() ?: ""
+        val genre: String = readLine1() ?: ""
         println("Please enter the language of the book:")
-        builder.language = readLine1() ?: ""
+        val language: String = readLine1() ?: ""
         println("Please enter the price of the book:")
-        builder.price = readLine1()?.toDoubleOrNull() ?: 0.0
+        val price: Double = readLine1()?.toDoubleOrNull() ?: 0.0
         println("Please enter the number of pages of the book:")
-        builder.numberOfPages = (readLine1() ?.toIntOrNull() ?: 0)
+        val numberOfPages: Int = (readLine1() ?.toIntOrNull() ?: 0)
+        println("Please enter the quantity of the book:")
+        val quantity: Int = (readLine1() ?.toIntOrNull() ?: 0)
         println("Please enter if book in stock:")
-        builder.inStock = readLine1()?.toBoolean() ?: true
+        val inStock: Boolean = readLine1()?.toBoolean() ?: true
+        println("Please enter the age rating of the book:")
+        val ageRate: Int = (readLine1() ?.toIntOrNull() ?: 0)
 
-        return builder.build()
+        return arrayOf(title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate)
     }
+
     fun adminChoice(): Int {
         println("1. View Inventory")
         println("2. Add to Inventory")
         println("3. Logout")
         return readLine1()?.toIntOrNull() ?: 0
-    }
-
-    fun bye(user: User?){
-        if (user != null) {
-            println("Bye, ${user.username}!")
-        }
     }
 
     fun customerChoice(): Int{
@@ -96,6 +93,13 @@ class UI(private val idGenerator: IIdGenerator) {
     }
     fun invalidChoice(){
         println("Invalid choice. Please try again.")
+    }
+    fun askExitOrSwitchUser(): Boolean {
+        println("Do you want to exit the application or switch user?")
+        println("1. Exit")
+        println("2. Switch user")
+        val choice = readLine1()
+        return choice == "1"
     }
 }
 

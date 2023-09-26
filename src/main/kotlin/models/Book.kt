@@ -9,32 +9,9 @@ open class Book(
     open val price: Double,
     open val numberOfPages: Int,
     open var quantity: Int,
-    open val inStock: Boolean
+    open val inStock: Boolean,
+    open val ageRate: Int
 ) {
-    // builder pattern
-    class BookBuilder {
-        var id: Int = 0
-        var title: String = ""
-        var author: String = ""
-        var genre: String = ""
-        var language: String = ""
-        var price: Double = 0.0
-        var numberOfPages: Int = 0
-        var quantity: Int = 1
-        var inStock: Boolean = true
-
-        fun id(id: Int) = apply { this.id = id }
-        fun title(title: String) = apply { this.title = title }
-        fun author(author: String) = apply { this.author = author }
-        fun genre(genre: String) = apply { this.genre = genre }
-        fun language(language: String) = apply { this.language = language }
-        fun price(price: Double) = apply { this.price = price }
-        fun numberOfPages(numberOfPages: Int) = apply { this.numberOfPages = numberOfPages }
-        fun quantity(quantity: Int) = apply { this.quantity = quantity }
-        fun inStock(inStock: Boolean) = apply { this.inStock = inStock }
-
-        fun build(): Book = Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock)
-    }
 
     open fun displayBook() {
         println("Title: $title")
@@ -45,6 +22,7 @@ open class Book(
         println("Price: $price")
         println("Left: $quantity")
         println("In Stock: $inStock")
+        println("Age Rating: $ageRate")
     }
 
     fun getAvailableQuantity(book: Book): Int {
@@ -67,7 +45,8 @@ open class Book(
             price = book.price,
             numberOfPages = book.numberOfPages,
             quantity = book.quantity,
-            inStock = book.inStock
+            inStock = book.inStock,
+            ageRate = book.ageRate
         )
     }
     override fun equals(other: Any?): Boolean{

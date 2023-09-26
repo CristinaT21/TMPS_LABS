@@ -1,52 +1,45 @@
 package ui
 
 import databases.BookDatabase
-import interfaces.IAdminPage
+import interfaces.*
 import managers.BookManager
 import managers.InventoryManager
 import models.User
-import interfaces.IInventoryViewer
-import interfaces.IInventoryAdder
-import interfaces.ILogout
+import models.Book
+import models.ChildBook
+import utils.IdGenerator
 
 
-class AdminPage(private val ui: UI) : IAdminPage, IInventoryViewer, IInventoryAdder, ILogout {
+class AdminPage(val idGenerator: IIdGenerator) : IAdminPage, IInventoryViewer, IInventoryAdder, ILogout {
     private val bookManager = BookManager()
     private val inventoryManager = InventoryManager()
     override fun run(user: User) {
         println("Hello ${user.username}!")
-    }
-    fun chooseAction(user: User, bookDatabase: BookDatabase) {
-        // loop through choices
-
-        while (true){
-            val choice = ui.adminChoice()
-            when (choice) {
-                1 -> { viewInventory(bookDatabase) }
-
-                2 -> { addInventory(bookDatabase) }
-
-                3 -> { logout(user)
-                        break }
-
-                else -> { ui.invalidChoice() }
-            }
-        }
     }
 
     override fun viewInventory(bookDatabase: BookDatabase) {
         println("View Inventory")
         inventoryManager.seeInventory(bookDatabase)
     }
-    override fun addInventory(bookDatabase: BookDatabase) {
+    override fun addInventory(bookInfo: Array<Any>, bookDatabase: BookDatabase) {
         println("Add to Inventory")
         // add book to inventory from InventoryManager
-        val bookIn = ui.addBook()
+        val bookIn = ChildBook(id=(idGenerator.currentId()),
+            title=(bookInfo[0] as String),
+            author=(bookInfo[1] as String),
+            genre=(bookInfo[2] as String),
+            language=(bookInfo[3] as String),
+            price=(bookInfo[4] as Double),
+            numberOfPages=(bookInfo[5] as Int),
+            quantity=(bookInfo[6] as Int),
+            inStock=(bookInfo[7] as Boolean),
+            ageRate=(bookInfo[8] as Int))
+        bookIn.displayBook()
         bookManager.addBook(bookDatabase, bookIn)
     }
     override fun logout(user: User) {
         println("Logout")
-        ui.bye(user)
+        println("Bye, ${user.username}!")
     }
 }
 

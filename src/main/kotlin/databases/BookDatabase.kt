@@ -20,7 +20,8 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             price = 9.69,
             numberOfPages = 310,
             quantity = 5,
-            inStock = true
+            inStock = true,
+            ageRate = 12
         )
 
         books[idGenerator.generateId()] = Book(
@@ -32,7 +33,8 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             price = 8.59,
             numberOfPages = 300,
             quantity = 3,
-            inStock = true
+            inStock = true,
+            ageRate = 13
         )
 
         books[idGenerator.generateId()] = Book(
@@ -44,7 +46,8 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             price = 8.99,
             numberOfPages = 320,
             quantity = 2,
-            inStock = true
+            inStock = true,
+            ageRate = 14
         )
 
         books[idGenerator.generateId()] = Book(
@@ -56,7 +59,8 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             price = 9.99,
             numberOfPages = 400,
             quantity = 1,
-            inStock = true
+            inStock = true,
+            ageRate = 15
         )
 
         books[idGenerator.generateId()] = Book(
@@ -68,7 +72,8 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             price = 7.99,
             numberOfPages = 240,
             quantity = 1,
-            inStock = true
+            inStock = true,
+            ageRate = 10
         )
         books[idGenerator.generateId()] = Book(
             idGenerator.currentId(),
@@ -79,18 +84,9 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
             price = 9.99,
             numberOfPages = 210,
             quantity = 5,
-            inStock = true
+            inStock = true,
+            ageRate = 18
         )
-    }
-
-    override fun countBooks(title: String, author: String): Int {
-        var count = 0
-        for (book in books.values){
-            if (book.title == title && book.author == author){
-                count++
-            }
-        }
-        return count
     }
 
     override fun addBook(book: Book) {

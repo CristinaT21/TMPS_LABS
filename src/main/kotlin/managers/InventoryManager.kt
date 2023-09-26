@@ -12,7 +12,7 @@ class InventoryManager: IInventoryManager {
         val uniqueBooks = bookDatabase.getBooks().values.toSet()
 
         for (book in uniqueBooks) {
-            val quantity = bookDatabase.countBooks(book.title, book.author)
+            val quantity = book.quantity
             println("$quantity exemplar(s) of ${book.title} by ${book.author}")
         }
     }
