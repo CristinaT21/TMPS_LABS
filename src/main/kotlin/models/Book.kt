@@ -32,7 +32,10 @@ open class Book(
         // update quantity of book
         book.quantity = quantityB
     }
-
+    // prototype pattern
+    fun clone(): Book{
+        return copy(this, this.id)
+    }
     // data class methods
     fun copy(book: Book, bookId: Int): Book {
         // create copy of book of specific id

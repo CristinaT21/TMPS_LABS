@@ -50,6 +50,9 @@ class AdminPage(val idGenerator: IIdGenerator) : IAdminPage, IInventoryViewer, I
             .build()
         bookIn.displayBook()
         bookManager.addBook(bookDatabase, bookIn)
+        val book_copy = bookIn.clone()
+        println("This is a copy of the book")
+        book_copy.displayBook()
     }
     override fun logout(user: User) {
         println("Logout")

@@ -1,6 +1,5 @@
 package ui
 
-
 import interfaces.User
 import kotlin.io.readLine as readLine1
 
