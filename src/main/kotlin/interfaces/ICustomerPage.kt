@@ -1,6 +1,6 @@
 package interfaces
 
-import models.User
+import interfaces.User
 
 interface ICustomerPage {
     fun run(user: User){}

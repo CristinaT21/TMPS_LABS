@@ -4,7 +4,7 @@ import interfaces.IBookDatabase
 import models.Book
 import interfaces.IIdGenerator
 
-class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
+class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
     // Create a map to store books by their ID
     private val books: MutableMap<Int, Book> = mutableMapOf()
 
@@ -113,8 +113,8 @@ class BookDatabase( val idGenerator: IIdGenerator): IBookDatabase {
     override fun getBooks(): Map<Int, Book> {
         return books
     }
-    override fun getBookDetails(title: String, author: String): Book {
-        return books.values.find { it.title == title && it.author == author }!!
+    override fun getBookDetails(title: String, author: String): Book? {
+        return books.values.find { it.title == title && it.author == author }
     }
 }
 

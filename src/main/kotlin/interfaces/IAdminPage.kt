@@ -1,6 +1,6 @@
 package interfaces
 
-import models.User
+import interfaces.User
 
 interface IAdminPage {
         fun run(user: User){}

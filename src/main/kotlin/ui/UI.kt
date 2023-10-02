@@ -1,11 +1,10 @@
 package ui
 
-import interfaces.IIdGenerator
-import models.Book
-import models.User
+
+import interfaces.User
 import kotlin.io.readLine as readLine1
 
-class UI() {
+class UI {
     fun run() {
         println("Welcome to the Bookstore!")
 
@@ -31,7 +30,17 @@ class UI() {
         println("Please enter the price of the book:")
         val price: Double = readLine1()?.toDoubleOrNull() ?: 0.0
         println("Please enter the number of pages of the book:")
-        val numberOfPages: Int = (readLine1() ?.toIntOrNull() ?: 0)
+        // if user enters a non-integer, round to nearest integer
+        val input = readLine1()
+        val numberOfPages: Int = if (input != null) {
+            val floatNumber = input.toFloatOrNull()
+            if (floatNumber !== null) {
+                kotlin.math.round(floatNumber).toInt()
+            } else {
+                0
+            }
+        } else { 0
+        }
         println("Please enter the quantity of the book:")
         val quantity: Int = (readLine1() ?.toIntOrNull() ?: 0)
         println("Please enter if book in stock:")
@@ -100,6 +109,14 @@ class UI() {
         println("2. Switch user")
         val choice = readLine1()
         return choice == "1"
+    }
+
+    fun registerOrLogin(): Int {
+        println("Please choose an option:")
+        println("1. Register")
+        println("2. Login")
+        println("0. Logout")
+        return readLine1()?.toIntOrNull() ?: 0
     }
 }
 

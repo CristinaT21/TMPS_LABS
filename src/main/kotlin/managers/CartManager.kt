@@ -7,7 +7,13 @@ import interfaces.ICartManager
 class CartManager(val cart: Cart): ICartManager {
     override fun addBook(book: Book, quantity: Int) {
         val availableQuantity = book.getAvailableQuantity(book)
-        if (availableQuantity >= quantity) {
+        // verify if quantity from cart + quantity from user is less than available quantity, make sure not to have negative quantity
+
+        var cartQuantity = cart.items[book]
+        if (cartQuantity == null) {
+            cartQuantity = 0
+        }
+        if (availableQuantity >= quantity && cartQuantity + quantity <= availableQuantity) {
             if (cart.items.containsKey(book)) {
                 cart.items[book] = cart.items[book]!! + quantity
             } else {

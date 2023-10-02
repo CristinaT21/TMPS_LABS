@@ -1,6 +1,6 @@
 package services
 
-import models.User
+import interfaces.User
 import interfaces.IUserDatabase
 
 class AuthService (private val database: IUserDatabase){

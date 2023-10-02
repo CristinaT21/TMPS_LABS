@@ -6,8 +6,8 @@ import interfaces.*
 //import managers.InventoryManager
 import managers.CartManager
 import models.Cart
+import models.Customer
 import models.Order
-import models.User
 
 class CustomerPage(private val ui: UI, cartManager: CartManager): ICustomerPage, IInventoryViewer,
     IBookInfoViewer, ICartAdder, ICartRemover, ICartViewer, IOrderPlacer, ILogout {
@@ -33,24 +33,38 @@ class CustomerPage(private val ui: UI, cartManager: CartManager): ICustomerPage,
         println("Add to Cart")
         // add book to cart
         val titleAuthor = ui.viewTitleAuthor()
-        cartManager.addBook(bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second), ui.choosecopyies())
+        // check if book exists in database and check if title and author match with database
+        val book = bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second)
+        if (book != null) {
+            cartManager.addBook(book, ui.choosecopyies())
+        } else {
+            println("Book not found.")
+        }
+
+
+
     }
 
     override fun removeFromCart(cartManager: CartManager, bookDatabase: BookDatabase) {
         println("Remove from Cart")
         // remove book from cart
         val titleAuthor = ui.viewTitleAuthor()
-        cartManager.removeBook(bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second), ui.choosecopyies())
+        val book = bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second)
+        if (book != null) {
+            cartManager.removeBook(book, ui.choosecopyies())
+        } else {
+            println("Book not found.")
+        }
     }
     override fun viewCart(cartManager: CartManager) {
         println("View Cart")
         // view cart
         println(cartManager.viewCart())
     }
-    override fun placeOrder(cart: Cart, user: User, bookDatabase: BookDatabase) {
+    override fun placeOrder(cart: Cart, customer: Customer, bookDatabase: BookDatabase) {
         println("Order")
         // place order
-        Order(CartManager(cart), cart, user, ui, bookDatabase).place()
+        Order(CartManager(cart), cart, customer, ui, bookDatabase).place()
     }
     override fun logout(user: User) {
         println("Logout")

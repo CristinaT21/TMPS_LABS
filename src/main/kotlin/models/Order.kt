@@ -5,7 +5,7 @@ import managers.CartManager
 import databases.BookDatabase
 import interfaces.ICartManager
 
-class Order(val cartManager: ICartManager, val cart: Cart, val customer: User, val ui: UI, val bookDatabase: BookDatabase) {
+class Order(val cartManager: ICartManager, val cart: Cart, val customer: Customer, val ui: UI, val bookDatabase: BookDatabase) {
     fun place() {
         if (cart.items.isEmpty()) {
             ui.emptyCart()
