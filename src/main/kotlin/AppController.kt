@@ -2,7 +2,10 @@ import databases.BookDatabase
 import databases.UserDatabase
 import factory.UserFactory
 import interfaces.*
+import managers.BookManager
 import managers.CartManager
+import managers.InventoryManager
+import models.Admin
 import models.Cart
 import models.Customer
 import services.AuthService
@@ -13,6 +16,14 @@ import utils.IdGenerator
 
 
 class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService: AuthService, val cart: Cart, val adminPage: AdminPage, val customerPage: CustomerPage, val userFactory: UserFactory, val userDatabase: UserDatabase) : IAppController {
+    // create a dictionary of users type
+    companion object {
+        val userFactories: Map<String, (String, String) -> User> = mapOf(
+            "admin" to ::Admin,
+            "customer" to ::Customer
+        )
+    }
+
     override fun run() {
         var exit = false
         while (!exit) {
@@ -57,7 +68,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
                         when (userType) {
                             "admin" -> {
                                 // create an instance of AdminInterface and call the run method
-                                user.let { AdminPage(IdGenerator).run(it)}
+                                user.let { AdminPage(IdGenerator, BookManager(), InventoryManager()).run(it)}
                                 chooseAction(user, bookDatabase)
 
                             }
@@ -118,5 +129,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
             }
         }
     }
+
+
 
 }

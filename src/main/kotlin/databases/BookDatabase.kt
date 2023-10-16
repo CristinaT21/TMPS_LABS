@@ -21,7 +21,8 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
             numberOfPages = 310,
             quantity = 5,
             inStock = true,
-            ageRate = 12
+            ageRate = 12,
+            description = "The Hobbit, or There and Back Again is a children's fantasy novel by English author J. R. R. Tolkien. It was published on 21 September 1937 to wide critical acclaim, being nominated for the Carnegie Medal and awarded a prize from the New York Herald Tribune for best juvenile fiction. The book remains popular and is recognized as a classic in children's literature."
         )
 
         books[idGenerator.generateId()] = Book(
@@ -34,7 +35,8 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
             numberOfPages = 300,
             quantity = 3,
             inStock = true,
-            ageRate = 13
+            ageRate = 13,
+            description = "The Fellowship of the Ring is the first of three volumes of the epic novel The Lord of the Rings by the English author J. R. R. Tolkien. It is followed by The Two Towers and The Return of the King. It takes place in the fictional universe of Middle-earth. It was originally published on 29 July 1954 in the United Kingdom."
         )
 
         books[idGenerator.generateId()] = Book(
@@ -47,7 +49,8 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
             numberOfPages = 320,
             quantity = 2,
             inStock = true,
-            ageRate = 14
+            ageRate = 14,
+            description = "The Two Towers is the second volume of J. R. R. Tolkien's high fantasy novel The Lord of the Rings. It is preceded by The Fellowship of the Ring and followed by The Return of the King. Originally published in 1954, the story covers events of the first two volumes of Tolkien's The Lord of the Rings."
         )
 
         books[idGenerator.generateId()] = Book(
@@ -60,7 +63,8 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
             numberOfPages = 400,
             quantity = 1,
             inStock = true,
-            ageRate = 15
+            ageRate = 15,
+            description = "The Return of the King is the third and final volume of J. R. R. Tolkien's The Lord of the Rings, following The Fellowship of the Ring and The Two Towers. The story begins in the kingdom of Gondor, which is soon to be attacked by the Dark Lord Sauron."
         )
 
         books[idGenerator.generateId()] = Book(
@@ -73,7 +77,8 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
             numberOfPages = 240,
             quantity = 1,
             inStock = true,
-            ageRate = 10
+            ageRate = 10,
+            description = "The Lion, the Witch and the Wardrobe is a fantasy novel for children by C. S. Lewis, published by Geoffrey Bles in 1950. It is the first published and best known of seven novels in The Chronicles of Narnia. Among all the author's books, it is also the most widely held in libraries."
         )
         books[idGenerator.generateId()] = Book(
             idGenerator.currentId(),
@@ -85,7 +90,8 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
             numberOfPages = 210,
             quantity = 5,
             inStock = true,
-            ageRate = 18
+            ageRate = 18,
+            description = "The story of my life."
         )
     }
 

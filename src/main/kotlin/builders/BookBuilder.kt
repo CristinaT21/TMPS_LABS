@@ -13,6 +13,7 @@ class BookBuilder: IBookBuilder {
     var quantity: Int = 0
     var inStock: Boolean = false
     var ageRate: Int = 0
+    var description: String = ""
 
     override fun setId(id: Int) = apply { this.id = id }
     override fun setTitle(title: String) = apply { this.title = title }
@@ -24,6 +25,6 @@ class BookBuilder: IBookBuilder {
     override fun setQuantity(quantity: Int) = apply { this.quantity = quantity }
     override fun setInStock(inStock: Boolean) = apply { this.inStock = inStock }
     override fun setAgeRate(ageRate: Int) = apply { this.ageRate = ageRate }
-
-    override fun build() = Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate)
+    override fun setDescription(description: String) = apply { this.description = description }
+    override fun build() = Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate, description)
 }

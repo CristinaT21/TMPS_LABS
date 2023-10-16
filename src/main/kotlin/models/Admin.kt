@@ -2,5 +2,8 @@ package models
 
 import interfaces.User
 
-class Admin(override val username: String, override val password: String): User() {
+class Admin(username : String, password: String) : User(username, password){
+    override fun clone(): User {
+        return Admin(username, password)
+    }
 }

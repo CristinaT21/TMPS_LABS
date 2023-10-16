@@ -13,5 +13,6 @@ interface IBookBuilder {
     fun setQuantity(quantity: Int): IBookBuilder
     fun setInStock(inStock: Boolean): IBookBuilder
     fun setAgeRate(ageRate: Int): IBookBuilder
+    fun setDescription(description: String): IBookBuilder
     fun build(): Book
 }

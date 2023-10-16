@@ -46,8 +46,9 @@ class UI {
         val inStock: Boolean = readLine1()?.toBoolean() ?: true
         println("Please enter the age rating of the book:")
         val ageRate: Int = (readLine1() ?.toIntOrNull() ?: 0)
-
-        return arrayOf(title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate)
+        println("Please enter the description of the book:")
+        val description: String = readLine1() ?: ""
+        return arrayOf(title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate, description)
     }
 
     fun adminChoice(): Int {

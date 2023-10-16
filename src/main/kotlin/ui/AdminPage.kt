@@ -1,20 +1,16 @@
 package ui
 
-import builders.BookBuilder
 import builders.ChildBookBuilder
 import databases.BookDatabase
+import decorators.GiftWrap
+import decorators.Note
+import decorators.Signed
 import interfaces.*
-import managers.BookManager
-import managers.InventoryManager
 import interfaces.User
-import models.Book
-import models.ChildBook
-import utils.IdGenerator
 
 
-class AdminPage(val idGenerator: IIdGenerator) : IAdminPage, IInventoryViewer, IInventoryAdder, ILogout {
-    private val bookManager = BookManager()
-    private val inventoryManager = InventoryManager()
+class AdminPage(val idGenerator: IIdGenerator, val bookManager : IBookManager, val inventoryManager : IInventoryManager) : IAdminPage, IInventoryViewer, IInventoryAdder, ILogout {
+
     override fun run(user: User) {
         println("Hello ${user.username}!")
     }
@@ -25,18 +21,6 @@ class AdminPage(val idGenerator: IIdGenerator) : IAdminPage, IInventoryViewer, I
     }
     override fun addInventory(bookInfo: Array<Any>, bookDatabase: BookDatabase) {
         println("Add to Inventory")
-        // add book to inventory from InventoryManager
-//        val bookIn = ChildBook(id=(idGenerator.currentId()),
-//            title=(bookInfo[0] as String),
-//            author=(bookInfo[1] as String),
-//            genre=(bookInfo[2] as String),
-//            language=(bookInfo[3] as String),
-//            price=(bookInfo[4] as Double),
-//            numberOfPages=(bookInfo[5] as Int),
-//            quantity=(bookInfo[6] as Int),
-//            inStock=(bookInfo[7] as Boolean),
-//            ageRate=(bookInfo[8] as Int))
-//        bookIn.displayBook()
         val bookIn = ChildBookBuilder().setId(idGenerator.generateId())
             .setTitle(bookInfo[0] as String)
             .setAuthor(bookInfo[1] as String)
@@ -50,9 +34,20 @@ class AdminPage(val idGenerator: IIdGenerator) : IAdminPage, IInventoryViewer, I
             .build()
         bookIn.displayBook()
         bookManager.addBook(bookDatabase, bookIn)
-        val book_copy = bookIn.clone()
-        println("This is a copy of the book")
-        book_copy.displayBook()
+
+        val bookCopy = bookIn.clone()
+
+        val giftWrappedBook =  GiftWrap(bookCopy)
+        println("This is a gift-wrapped copy of the book")
+        giftWrappedBook.displayBook()
+
+        val signedBook = Signed(bookCopy)
+        println("This is a signed copy of the book")
+        signedBook.displayBook()
+
+        val superBook = Note(Signed(giftWrappedBook), "Stas")
+        println("This is a signed and gift-wrapped copy of the book")
+        superBook.displayBook()
     }
     override fun logout(user: User) {
         println("Logout")

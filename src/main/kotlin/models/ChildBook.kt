@@ -11,7 +11,9 @@ class ChildBook(
     override val numberOfPages: Int,
     override var quantity: Int,
     override val inStock: Boolean,
-    override val ageRate: Int): Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate)
+    override val ageRate: Int,
+    override val description: String
+): Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate, description)
 {
 
     override fun displayBook() {

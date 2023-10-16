@@ -2,5 +2,8 @@ package models
 
 import interfaces.User
 
-class Customer(override val username: String, override val password: String): User() {
+class Customer(username: String, password: String): User(username, password){
+    override fun clone(): User {
+        return Customer(username, password)
+    }
 }

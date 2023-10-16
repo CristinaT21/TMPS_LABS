@@ -10,7 +10,8 @@ open class Book(
     open val numberOfPages: Int,
     open var quantity: Int,
     open val inStock: Boolean,
-    open val ageRate: Int
+    open val ageRate: Int,
+    open val description: String = ""
 ) {
 
     open fun displayBook() {
@@ -23,6 +24,7 @@ open class Book(
         println("Left: $quantity")
         println("In Stock: $inStock")
         println("Age Rating: $ageRate")
+        println("Description: $description")
     }
 
     fun getAvailableQuantity(book: Book): Int {
@@ -49,7 +51,8 @@ open class Book(
             numberOfPages = book.numberOfPages,
             quantity = book.quantity,
             inStock = book.inStock,
-            ageRate = book.ageRate
+            ageRate = book.ageRate,
+            description = book.description
         )
     }
     override fun equals(other: Any?): Boolean{
