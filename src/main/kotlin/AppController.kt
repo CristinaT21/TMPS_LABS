@@ -1,5 +1,6 @@
 import databases.BookDatabase
 import databases.UserDatabase
+import facade.CreateUserFacade
 import factory.UserFactory
 import interfaces.*
 import managers.BookManager
@@ -42,14 +43,11 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
             val choice = ui.registerOrLogin()
             when (choice) {
                 1 -> { // register user
-                    val(name, pass) = ui.validateUser()
-                    val user = userFactory.createUser("customer", name, pass)
-                    println("User created successfully.")
-                    // add user to database
-                    userDatabase.addUser(user)
+                    val user = CreateUserFacade(ui, userFactory, userDatabase).addUser()
                     // create an instance of CustomerInterface and call the run method
                     user.let { CustomerPage(ui, CartManager(cart)).run(it)}
                     chooseActions(user as Customer, bookDatabase, cart)
+
 
                 }
                 2 -> {

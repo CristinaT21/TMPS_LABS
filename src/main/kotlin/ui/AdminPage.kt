@@ -34,7 +34,7 @@ class AdminPage(val idGenerator: IIdGenerator, val bookManager : IBookManager, v
             .build()
         bookIn.displayBook()
         bookManager.addBook(bookDatabase, bookIn)
-
+        //TODO: Add in customer page to choose
         val bookCopy = bookIn.clone()
 
         val giftWrappedBook =  GiftWrap(bookCopy)
