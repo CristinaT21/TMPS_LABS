@@ -1,40 +1,40 @@
 package managers
 
+import composite.Product
 import models.Cart
-import models.Book
 import interfaces.ICartManager
 
 class CartManager(val cart: Cart): ICartManager {
-    override fun addBook(book: Book, quantity: Int) {
-        val availableQuantity = book.getAvailableQuantity(book)
+    override fun addBook(product: Product, quantity: Int) {
+        val availableQuantity = product.getAvailableQuantity()
         // verify if quantity from cart + quantity from user is less than available quantity, make sure not to have negative quantity
 
-        var cartQuantity = cart.items[book]
+        var cartQuantity = cart.items[product]
         if (cartQuantity == null) {
             cartQuantity = 0
         }
         if (availableQuantity >= quantity && cartQuantity + quantity <= availableQuantity) {
-            if (cart.items.containsKey(book)) {
-                cart.items[book] = cart.items[book]!! + quantity
+            if (cart.items.containsKey(product)) {
+                cart.items[product] = cart.items[product]!! + quantity
             } else {
-                cart.items[book] = quantity
+                cart.items[product] = quantity
             }
         } else {
-            println("Sorry, only $availableQuantity copies of ${book.title} are available.")
+            println("Sorry, only $availableQuantity copies of ${product.getTitle()} are available.")
         }
     }
 
-    override fun removeBook(book: Book, quantity: Int) {
-        if (cart.items.containsKey(book)) {
-            if (cart.items[book]!! > quantity) {
-                cart.items[book] = cart.items[book]!! - quantity
+    override fun removeBook(product: Product, quantity: Int) {
+        if (cart.items.containsKey(product)) {
+            if (cart.items[product]!! > quantity) {
+                cart.items[product] = cart.items[product]!! - quantity
             } else {
-                cart.items.remove(book)
+                cart.items.remove(product)
             }
         }
     }
 
-    override fun viewCart(): Map<Book, Int> {
+    override fun viewCart(): Map<Product, Int> {
         return cart.items
     }
 

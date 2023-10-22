@@ -1,5 +1,6 @@
 package models
 
+import composite.Product
 object Cart {
-    val items: MutableMap<Book, Int> = mutableMapOf()
+    val items: MutableMap<Product, Int> = mutableMapOf()
 }

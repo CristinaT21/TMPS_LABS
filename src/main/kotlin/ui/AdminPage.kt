@@ -1,15 +1,15 @@
 package ui
 
+import adapter.MagazineAdapter
 import builders.ChildBookBuilder
 import databases.BookDatabase
-import decorators.GiftWrap
-import decorators.Note
-import decorators.Signed
+import decorators.*
 import interfaces.*
-import interfaces.User
+import models.Magazine
+import composite.Collection
 
 
-class AdminPage(val idGenerator: IIdGenerator, val bookManager : IBookManager, val inventoryManager : IInventoryManager) : IAdminPage, IInventoryViewer, IInventoryAdder, ILogout {
+class AdminPage(private val idGenerator: IIdGenerator, private val bookManager : IBookManager, private val inventoryManager : IInventoryManager) : IAdminPage, IInventoryViewer, IInventoryAdder, ILogout {
 
     override fun run(user: User) {
         println("Hello ${user.username}!")
@@ -19,36 +19,58 @@ class AdminPage(val idGenerator: IIdGenerator, val bookManager : IBookManager, v
         println("View Inventory")
         inventoryManager.seeInventory(bookDatabase)
     }
-    override fun addInventory(bookInfo: Array<Any>, bookDatabase: BookDatabase) {
+    override fun addInventory(productInfo: Array<Any>, bookDatabase: BookDatabase) {
         println("Add to Inventory")
+        //TODO: Choose book or magazine or childbook ...
         val bookIn = ChildBookBuilder().setId(idGenerator.generateId())
-            .setTitle(bookInfo[0] as String)
-            .setAuthor(bookInfo[1] as String)
-            .setGenre(bookInfo[2] as String)
-            .setLanguage(bookInfo[3] as String)
-            .setPrice(bookInfo[4] as Double)
-            .setNumberOfPages(bookInfo[5] as Int)
-            .setQuantity(bookInfo[6] as Int)
-            .setInStock(bookInfo[7] as Boolean)
-            .setAgeRate(bookInfo[8] as Int)
+            .setTitle(productInfo[0] as String)
+            .setAuthor(productInfo[1] as String)
+            .setGenre(productInfo[2] as String)
+            .setLanguage(productInfo[3] as String)
+            .setPrice(productInfo[4] as Double)
+            .setNumberOfPages(productInfo[5] as Int)
+            .setQuantity(productInfo[6] as Int)
+            .setInStock(productInfo[7] as Boolean)
+            .setAgeRate(productInfo[8] as Int)
             .build()
-        bookIn.displayBook()
+        bookIn.display()
         bookManager.addBook(bookDatabase, bookIn)
-        //TODO: Add in customer page to choose
+        println("Add magazine to inventory")
+        val magazine = Magazine(idGenerator.generateId(),
+            productInfo[0] as String,
+            productInfo[1] as String,
+            productInfo[2] as String,
+            productInfo[3] as String,
+            productInfo[4] as Double,
+            productInfo[5] as Int,
+            productInfo[6] as Int,
+            productInfo[7] as Boolean,
+            productInfo[8] as Int)
+        val magazine_b = MagazineAdapter(magazine)
+        magazine_b.displayBook()
+        //TODO: Add in customer page to choose if wrapped and so on
         val bookCopy = bookIn.clone()
 
         val giftWrappedBook =  GiftWrap(bookCopy)
         println("This is a gift-wrapped copy of the book")
-        giftWrappedBook.displayBook()
+        giftWrappedBook.display()
 
         val signedBook = Signed(bookCopy)
         println("This is a signed copy of the book")
-        signedBook.displayBook()
+        signedBook.display()
 
         val superBook = Note(Signed(giftWrappedBook), "Stas")
         println("This is a signed and gift-wrapped copy of the book")
-        superBook.displayBook()
+        superBook.display()
+
+        //TODO: Add to choose if add book or collection
+        val collection = Collection("My collection")
+        collection.add(bookIn)
+        collection.add(signedBook)
+        collection.add(giftWrappedBook)
+        collection.display()
     }
+
     override fun logout(user: User) {
         println("Logout")
         println("Bye, ${user.username}!")

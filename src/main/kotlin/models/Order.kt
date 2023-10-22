@@ -27,8 +27,8 @@ class Order(val cartManager: ICartManager, val cart: Cart, val customer: Custome
                 ui.orderPlaced(customer)
                 // from database delete ordered books
                 for (item in cart.items) {
-                    val book = item.key
-                    book.updateQuantity(item.key, book.quantity-item.value)
+                    val product = item.key
+                    product.updateQuantity(product.getAvailableQuantity()-item.value)
                 }
                 cartManager.clearCart()
             }

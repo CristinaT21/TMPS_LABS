@@ -1,11 +1,10 @@
 package interfaces
 
-import models.Book
-import models.Cart
+import composite.Product
 
 interface ICartManager {
-    fun addBook(book: Book, quantity: Int)
-    fun removeBook(book: Book, quantity: Int)
-    fun viewCart(): Map<Book, Int>
+    fun addBook(product: Product, quantity: Int)
+    fun removeBook(product: Product, quantity: Int)
+    fun viewCart(): Map<Product, Int>
     fun clearCart()
 }

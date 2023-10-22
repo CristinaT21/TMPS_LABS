@@ -16,8 +16,8 @@ class ChildBook(
 ): Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate, description)
 {
 
-    override fun displayBook() {
-        super.displayBook()
+    override fun display() {
+        super.display()
         println("This is a child book")
     }
 }

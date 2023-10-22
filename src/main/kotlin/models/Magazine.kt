@@ -2,12 +2,11 @@ package models
 
 import composite.Product
 
-
-open class Book(
+open class Magazine(
     open val id: Int,
     open val title: String,
     open val author: String,
-    open val genre: String,
+    open val topic: String,
     open val language: String,
     override val price: Double,
     open val numberOfPages: Int,
@@ -16,11 +15,10 @@ open class Book(
     open val ageRate: Int,
     open val description: String = ""
 ): Product {
-
     override fun display() {
         println("Title: $title")
         println("Author: $author")
-        println("Genre: $genre")
+        println("Topic: $topic")
         println("Language: $language")
         println("Number of Pages: $numberOfPages")
         println("Price: $price")
@@ -29,7 +27,6 @@ open class Book(
         println("Age Rating: $ageRate")
         println("Description: $description")
     }
-
     override fun getAvailableQuantity(): Int {
         return quantity
     }
@@ -39,57 +36,34 @@ open class Book(
         quantity = quantityB
     }
     // prototype pattern
-    fun clone(): Book{
+    fun clone(): Magazine{
         return copy(this, this.id)
     }
     // data class methods
-    fun copy(book: Book, bookId: Int): Book {
+    fun copy(magazine: Magazine, magazineId: Int): Magazine {
         // create copy of book of specific id
-        return Book(
-            id = bookId,
-            title = book.title,
-            author = book.author,
-            genre = book.genre,
-            language = book.language,
-            price = book.price,
-            numberOfPages = book.numberOfPages,
-            quantity = book.quantity,
-            inStock = book.inStock,
-            ageRate = book.ageRate,
-            description = book.description
+        return Magazine(
+            id = magazineId,
+            title = magazine.title,
+            author = magazine.author,
+            topic = magazine.topic,
+            language = magazine.language,
+            price = magazine.price,
+            numberOfPages = magazine.numberOfPages,
+            quantity = magazine.quantity,
+            inStock = magazine.inStock,
+            ageRate = magazine.ageRate,
+            description = magazine.description
         )
     }
     override fun equals(other: Any?): Boolean{
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-
-        other as Book
-
-        if (title != other.title) return false
-        if (author != other.author) return false
-
+        other as Magazine
+        if (id != other.id) return false
         return true
     }
-    override fun hashCode(): Int {
-        var result = title.hashCode()
-        result = 31 * result + author.hashCode()
-        return result
-    }
-    override fun toString(): String {
-        return "Book(title='$title', author='$author')"
+    override fun hashCode(): Int{
+        return id
     }
 }
-
-//S - responsible for representing a book
-//O - new properties could be added to the BookBuilder class.Any changes to how
-// books are represented should not require changes to the models.Book class itself.
-//D - The models.Book class does not depend on any lower-level modules or concrete implementations
-
-
-
-
-
-
-
-
-

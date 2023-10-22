@@ -13,8 +13,8 @@ class TextBook(
     override val inStock: Boolean,
     override val ageRate: Int): Book(id, title, author, genre, language, price, numberOfPages, quantity, inStock, ageRate)
 {
-    override fun displayBook() {
-        super.displayBook()
+    override fun display() {
+        super.display()
         println("This is a text book")
     }
 }

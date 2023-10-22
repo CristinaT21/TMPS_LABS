@@ -2,5 +2,5 @@ package interfaces
 import databases.BookDatabase
 
 interface IInventoryAdder {
-    fun addInventory(bookInfo: Array<Any>, bookDatabase: BookDatabase){}
+    fun addInventory(productInfo: Array<Any>, bookDatabase: BookDatabase){}
 }
