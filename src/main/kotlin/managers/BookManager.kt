@@ -1,15 +1,15 @@
 package managers
 
-import models.Book
+import composite.Product
 import databases.BookDatabase
 import interfaces.IBookManager
 
 class BookManager: IBookManager {
-    override fun addBook(bookDatabase: BookDatabase, book: Book) {
-        bookDatabase.addBook(book)
+    override fun addBook(bookDatabase: BookDatabase, product: Product) {
+        bookDatabase.addBook(product)
     }
 
-    override fun removeBook(bookDatabase: BookDatabase, book: Book) {
-        bookDatabase.removeBook(book)
+    override fun removeBook(bookDatabase: BookDatabase, product: Product) {
+        bookDatabase.removeBook(product)
     }
 }

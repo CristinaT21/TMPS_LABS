@@ -4,17 +4,17 @@ import composite.Product
 
 
 open class Book(
-    open val id: Int,
-    open val title: String,
-    open val author: String,
+    override val id: Int,
+    override val title: String,
+    override val author: String,
     open val genre: String,
-    open val language: String,
+    override val language: String,
     override val price: Double,
-    open val numberOfPages: Int,
-    open var quantity: Int,
-    open val inStock: Boolean,
-    open val ageRate: Int,
-    open val description: String = ""
+    override val numberOfPages: Int,
+    override var quantity: Int,
+    override val inStock: Boolean,
+    override val ageRate: Int,
+    override val description: String = ""
 ): Product {
 
     override fun display() {

@@ -3,9 +3,11 @@ package models
 import ui.UI
 import managers.CartManager
 import databases.BookDatabase
+import interfaces.IBookDatabase
 import interfaces.ICartManager
+import interfaces.User
 
-class Order(val cartManager: ICartManager, val cart: Cart, val customer: Customer, val ui: UI, val bookDatabase: BookDatabase) {
+class Order(val cartManager: ICartManager, val cart: Cart, val customer: User, val ui: UI, val bookDatabase: IBookDatabase) {
     fun place() {
         if (cart.items.isEmpty()) {
             ui.emptyCart()

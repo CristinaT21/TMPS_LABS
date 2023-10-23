@@ -45,7 +45,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
                 1 -> { // register user
                     val user = CreateUserFacade(ui, userFactory, userDatabase).addUser()
                     // create an instance of CustomerInterface and call the run method
-                    user.let { CustomerPage(ui, CartManager(cart)).run(it)}
+                    user.let { CustomerPage(ui).run(it)}
                     chooseActions(user as Customer, bookDatabase, cart)
 
 
@@ -72,7 +72,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
                             }
                             "customer" -> {
                                 // create an instance of CustomerInterface and call the run method
-                                user.let { CustomerPage(ui, CartManager(cart)).run(it)}
+                                user.let { CustomerPage(ui).run(it)}
                                 chooseActions(user as Customer, bookDatabase, cart)
                             }
                             else -> { ui.invalidChoice() }
@@ -117,6 +117,10 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
                 }
 
                 3 -> {
+                    adminPage.addCollection(bookDatabase)
+                }
+
+                0 ->    {
                     adminPage.logout(user)
                     break
                 }

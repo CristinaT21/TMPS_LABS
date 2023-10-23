@@ -15,7 +15,7 @@ class UserDatabase : IUserDatabase {
         users["customer123"] = Customer("customer123", "password123")
         users["admin456"] = Admin("admin456", "adminPassword")
     }
-    fun addUser(user: User) {
+    override fun addUser(user: User) {
         users[user.username] = user
     }
     override fun login(username: String, password: String): User? {

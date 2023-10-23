@@ -20,7 +20,7 @@ class CartManager(val cart: Cart): ICartManager {
                 cart.items[product] = quantity
             }
         } else {
-            println("Sorry, only $availableQuantity copies of ${product.getTitle()} are available.")
+            println("Sorry, only $availableQuantity copies of ${product.title} are available.")
         }
     }
 

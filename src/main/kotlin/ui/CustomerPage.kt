@@ -1,15 +1,19 @@
 package ui
 
 import databases.BookDatabase
+import decorators.GiftWrap
+import decorators.Note
+import decorators.Signed
 import interfaces.*
 //import managers.BookManager
 //import managers.InventoryManager
 import managers.CartManager
+import models.Book
 import models.Cart
 import models.Customer
 import models.Order
 
-class CustomerPage(private val ui: UI, cartManager: CartManager): ICustomerPage, IInventoryViewer,
+class CustomerPage(private val ui: UI): ICustomerPage, IInventoryViewer,
     IBookInfoViewer, ICartAdder, ICartRemover, ICartViewer, IOrderPlacer, ILogout {
     override fun run(user: User) {
         println("Hello ${user.username}!")
@@ -24,7 +28,7 @@ class CustomerPage(private val ui: UI, cartManager: CartManager): ICustomerPage,
         val titleAuthor = ui.viewTitleAuthor()
         val book = bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second)
         if (book != null) {
-            book.displayBook()
+            book.display()
         } else {
             println("Book not found.")
         }
@@ -36,7 +40,28 @@ class CustomerPage(private val ui: UI, cartManager: CartManager): ICustomerPage,
         // check if book exists in database and check if title and author match with database
         val book = bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second)
         if (book != null) {
-            cartManager.addBook(book, ui.choosecopyies())
+            println("Enter 1 if you want wrapped book, 0 otherwise")
+            val wrappedChoice = readLine()?.toIntOrNull() ?: 0
+            val wrappedBook = book as Book
+            if (wrappedChoice == 1) {
+                val wrappedBook = GiftWrap(book as Book)
+            }
+            println("Enter 1 if you want signed book, 0 otherwise")
+            val signedChoice = readLine()?.toIntOrNull() ?: 0
+            val signedBook = wrappedBook
+            if (signedChoice == 1) {
+                val signedBook = Signed(wrappedBook)
+            }
+            println("Enter 1 if you want note book, 0 otherwise")
+            val noteChoice = readLine()?.toIntOrNull() ?: 0
+            val noteBook = signedBook
+            if (noteChoice == 1) {
+                println("Enter the name of the person you want to send the note to")
+                val name = readLine() ?: ""
+                val noteBook = Note(signedBook, name)
+            }
+            cartManager.addBook(signedBook, ui.choosecopyies())
+
         } else {
             println("Book not found.")
         }

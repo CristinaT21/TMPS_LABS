@@ -54,7 +54,8 @@ class UI {
     fun adminChoice(): Int {
         println("1. View Inventory")
         println("2. Add to Inventory")
-        println("3. Logout")
+        println("3. Add Collection")
+        println("0. Logout")
         return readLine1()?.toIntOrNull() ?: 0
     }
 

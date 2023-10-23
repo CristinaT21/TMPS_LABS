@@ -1,12 +1,13 @@
 package databases
 
+import composite.Product
 import interfaces.IBookDatabase
 import models.Book
 import interfaces.IIdGenerator
 
 class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
     // Create a map to store books by their ID
-    private val books: MutableMap<Int, Book> = mutableMapOf()
+    private val books: MutableMap<Int, Product> = mutableMapOf()
 
     // Initialize the books map with some sample books
     init {
@@ -95,19 +96,23 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
         )
     }
 
-    override fun addBook(book: Book) {
+    override fun addBook(book: Product) {
         // add book to inventory
         val bookId = idGenerator.generateId()
-        books[bookId] = book.copy(book, bookId)
+        books[bookId] = book
         println("${book.title} by ${book.author} added to inventory.")
     }
-    override fun removeBook(book: Book) {
-        val removedBook = books.remove(book.id)
-        if (removedBook != null) {
-            println("models.Book removed with ID ${book.id}.")
+    override fun removeBook(book: Product) {
+        val id = book.id
+        if (id != null) {
+            if (book.quantity > 0) {
+                book.quantity--
+                }
+            else{books.remove(book.id)}
+            println("Book removed with ID ${book.id}.")
              // Decrement currentId when a book is removed
         } else {
-            println("models.Book with ID ${book.id} not found.")
+            println("Book not found.")
             }
     }
     override fun seeAllBooks()  {
@@ -116,10 +121,10 @@ class BookDatabase(val idGenerator: IIdGenerator): IBookDatabase {
             println("${book.title} by ${book.author}")
         }
     }
-    override fun getBooks(): Map<Int, Book> {
+    override fun getBooks(): Map<Int, Product> {
         return books
     }
-    override fun getBookDetails(title: String, author: String): Book? {
+    override fun getBookDetails(title: String, author: String): Product? {
         return books.values.find { it.title == title && it.author == author }
     }
 }
