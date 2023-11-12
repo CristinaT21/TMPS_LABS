@@ -3,7 +3,7 @@ package composite
 interface Product {
     val id: Int
     val title: String
-    val price: Double
+    var price: Double
     val author: String
     val language: String
     val numberOfPages: Int

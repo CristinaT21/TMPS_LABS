@@ -113,9 +113,12 @@ class AdminPage(private val idGenerator: IIdGenerator, private val bookManager :
                 break
             }
         }
-        collection.display()
+        val iterator = collection.createIterator()
+        while (iterator.hasNext()){
+            iterator.next().display()
+        }
+//        collection.display()
         bookManager.addBook(bookDatabase, collection)
-
     }
 
     fun chooseProductType(): Int {

@@ -1,34 +1,26 @@
-# Topic: *Structural Design Patterns*
+# Topic: *Behavioural Design Patterns*
 
 Author: *Țărnă Cristina*
 ------
 ## Theoretical background:
-&ensp; &ensp; Structural design patterns are a category of design patterns that focus on the composition of classes and objects to form larger structures and systems. They provide a way to organize objects and classes in a way that is both flexible and efficient, while allowing for the reuse and modification of existing code. Structural design patterns address common problems encountered in the composition of classes and objects, such as how to create new objects that inherit functionality from existing objects, how to create objects that share functionality without duplicating code, or how to define relationships between objects in a flexible and extensible way.
-
+&ensp; &ensp; Behavioral design patterns are a category of design patterns that focus on the interaction and communication between objects and classes. They provide a way to organize the behavior of objects in a way that is both flexible and reusable, while separating the responsibilities of objects from the specific implementation details. Behavioral design patterns address common problems encountered in object behavior, such as how to define interactions between objects, how to control the flow of messages between objects, or how to define algorithms and policies that can be reused across different objects and classes.
 ## Objectives:
-&ensp; &ensp; __1. Study and understand the Structural Design Patterns.__
+&ensp; &ensp; __1. Study and understand the Behavioural Design Patterns.__
 
 &ensp; &ensp; __2. As a continuation of the previous laboratory work, think about the functionalities that your system will need to provide to the user.__
 
-&ensp; &ensp; __3. Implement 4 structural design patterns.__
+&ensp; &ensp; __3. Implement 3 behavioural design patterns.__
 
 
 &ensp; &ensp; Some examples of from this category of design patterns are:
 
-* Adapter
-* Composite
-* Decorator
-* Facade
+* Chain of Responsibility
+*  
 
 
-## Adapter
+## Chain of Responsibility
 ```python
-class MagazineAdapter(private val magazine: Magazine) : Book(id = magazine.id, title = magazine.title, author = magazine.author, genre = magazine.topic, language = magazine.language, price = magazine.price, numberOfPages = magazine.numberOfPages, quantity = magazine.quantity, inStock = magazine.inStock, ageRate = magazine.ageRate, description = magazine.description) {
-
-    override fun display() {
-        magazine.display()
-    }
-}
+ 
 ```
 I adapted the Magazine class to the Book class, because they have the same attributes, but different names. I used the Adapter pattern to make the Magazine class compatible with the Book class.
 
@@ -69,4 +61,4 @@ class CreateUserFacade(private val ui: UI, private val userFactory: UserFactory,
 }
 ```
 ## Conclusions:
-In this laboratory work I studied and implemented 4 structural design patterns. I used the Adapter pattern to make the Magazine class compatible with the Book class. I used the Composite pattern to create a list of products, which can contain both books and magazines. I used the Decorator pattern to add a new functionality to the Book class. I used the Facade pattern to create a CreateUserFacade class that will be used to access the functionalities of the system.
+In this laboratory work I studied and implemented 3 behavioural design patterns.

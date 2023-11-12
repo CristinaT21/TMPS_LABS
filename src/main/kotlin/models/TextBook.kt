@@ -7,7 +7,7 @@ class TextBook(
     override val author: String,
     override val genre: String,
     override val language: String,
-    override val price: Double,
+    override var price: Double,
     override val numberOfPages: Int,
     override var quantity: Int,
     override val inStock: Boolean,

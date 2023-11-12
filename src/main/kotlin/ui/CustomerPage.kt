@@ -1,5 +1,9 @@
 package ui
 
+import AppController
+import chainOfResponsibility.CreditCardHandler
+import chainOfResponsibility.HandlerChain
+import chainOfResponsibility.PayPalHandler
 import databases.BookDatabase
 import decorators.GiftWrap
 import decorators.Note
@@ -61,13 +65,11 @@ class CustomerPage(private val ui: UI): ICustomerPage, IInventoryViewer,
                 val noteBook = Note(signedBook, name)
             }
             cartManager.addBook(signedBook, ui.choosecopyies())
+            signedBook.price *= ui.choosecopyies()
 
         } else {
             println("Book not found.")
         }
-
-
-
     }
 
     override fun removeFromCart(cartManager: CartManager, bookDatabase: BookDatabase) {
@@ -77,6 +79,7 @@ class CustomerPage(private val ui: UI): ICustomerPage, IInventoryViewer,
         val book = bookDatabase.getBookDetails(titleAuthor.first, titleAuthor.second)
         if (book != null) {
             cartManager.removeBook(book, ui.choosecopyies())
+            book.price -= book.price * ui.choosecopyies()
         } else {
             println("Book not found.")
         }
@@ -86,10 +89,10 @@ class CustomerPage(private val ui: UI): ICustomerPage, IInventoryViewer,
         // view cart
         println(cartManager.viewCart())
     }
-    override fun placeOrder(cart: Cart, customer: Customer, bookDatabase: BookDatabase) {
+    override fun placeOrder(cart: Cart, customer: Customer, bookDatabase: BookDatabase, handlerChain: IHandlerChain, discountStrategy: DiscountStrategy) {
         println("Order")
         // place order
-        Order(CartManager(cart), cart, customer, ui, bookDatabase).place()
+        Order(CartManager(cart), cart, customer, ui, bookDatabase, handlerChain, discountStrategy).place()
     }
     override fun logout(user: User) {
         println("Logout")

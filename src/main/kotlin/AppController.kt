@@ -1,3 +1,6 @@
+import chainOfResponsibility.CreditCardHandler
+import chainOfResponsibility.HandlerChain
+import chainOfResponsibility.PayPalHandler
 import databases.BookDatabase
 import databases.UserDatabase
 import facade.CreateUserFacade
@@ -10,6 +13,8 @@ import models.Admin
 import models.Cart
 import models.Customer
 import services.AuthService
+import strategy.NoDiscountStrategy
+import strategy.PercentageDiscountStrategy
 import ui.AdminPage
 import ui.CustomerPage
 import ui.UI
@@ -19,12 +24,13 @@ import utils.IdGenerator
 class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService: AuthService, val cart: Cart, val adminPage: AdminPage, val customerPage: CustomerPage, val userFactory: UserFactory, val userDatabase: UserDatabase) : IAppController {
     // create a dictionary of users type
     companion object {
+        val payments: List<IPaymentHandler> = listOf(CreditCardHandler(), PayPalHandler())
         val userFactories: Map<String, (String, String) -> User> = mapOf(
             "admin" to ::Admin,
             "customer" to ::Customer
         )
     }
-
+    val handlerChain = HandlerChain()
     override fun run() {
         var exit = false
         while (!exit) {
@@ -46,9 +52,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
                     val user = CreateUserFacade(ui, userFactory, userDatabase).addUser()
                     // create an instance of CustomerInterface and call the run method
                     user.let { CustomerPage(ui).run(it)}
-                    chooseActions(user as Customer, bookDatabase, cart)
-
-
+                    chooseActions(user as Customer, bookDatabase, this.cart, handlerChain, discountStrategy=PercentageDiscountStrategy(10.0))
                 }
                 2 -> {
                     var user: User? = null
@@ -73,7 +77,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
                             "customer" -> {
                                 // create an instance of CustomerInterface and call the run method
                                 user.let { CustomerPage(ui).run(it)}
-                                chooseActions(user as Customer, bookDatabase, cart)
+                                chooseActions(user as Customer, bookDatabase, cart, handlerChain, discountStrategy= NoDiscountStrategy())
                             }
                             else -> { ui.invalidChoice() }
                         }
@@ -84,7 +88,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
             }
         }
     }
-    fun chooseActions(customer: Customer, bookDatabase: BookDatabase, cart: Cart){
+    fun chooseActions(customer: Customer, bookDatabase: BookDatabase, cart: Cart, handlerChain: IHandlerChain, discountStrategy: DiscountStrategy){
         // loop through choices
         val cartManager = CartManager(cart)
         while (true) {
@@ -95,7 +99,7 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
                 3 -> { customerPage.addToCart(cartManager, bookDatabase) }
                 4 -> { customerPage.removeFromCart(cartManager, bookDatabase) }
                 5 -> { customerPage.viewCart(cartManager) }
-                6 -> { customerPage.placeOrder(cart, customer, bookDatabase) }
+                6 -> { customerPage.placeOrder(cart, customer, bookDatabase, handlerChain, discountStrategy) }
                 7 -> { customerPage.logout(customer)
                     break  }
                 else -> { ui.invalidChoice() }
@@ -108,30 +112,15 @@ class AppController(val ui: UI, val bookDatabase: BookDatabase, val authService:
         while (true) {
             val choice = ui.adminChoice()
             when (choice) {
-                1 -> {
-                    adminPage.viewInventory(bookDatabase)
-                }
+                1 -> { adminPage.viewInventory(bookDatabase)}
+                2 -> { adminPage.addInventory(ui.addBookInfo(), bookDatabase)}
+                3 -> { adminPage.addCollection(bookDatabase)}
 
-                2 -> {
-                    adminPage.addInventory(ui.addBookInfo(), bookDatabase)
-                }
-
-                3 -> {
-                    adminPage.addCollection(bookDatabase)
-                }
-
-                0 ->    {
-                    adminPage.logout(user)
-                    break
-                }
-
-                else -> {
-                    ui.invalidChoice()
-                }
+                0 -> { adminPage.logout(user)
+                       break
+                     }
+                else -> { ui.invalidChoice()}
             }
         }
     }
-
-
-
 }

@@ -119,6 +119,9 @@ class UI {
         println("0. Logout")
         return readLine1()?.toIntOrNull() ?: 0
     }
+    fun paymentFailed(){
+        println("Insufficient resources. Top up the account!")
+    }
 }
 
 //S - responsible for user interaction
