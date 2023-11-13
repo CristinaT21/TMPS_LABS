@@ -33,9 +33,9 @@ I created a class CreditCardHandler and PayPalHandler that implement the IPaymen
     }
 }
 ```
-[PayPalHandler.kt](src/main/kotlin/chainOfResponsibility/PayPalHandler.kt) is similar to the CreditCardHandler class.
+[PayPalHandler.kt](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/chainOfResponsibility/PayPalHandler.kt) is similar to the CreditCardHandler class.
 
-[HandlerChain.kt](src/main/kotlin/chainOfResponsibility/HandlerChain.kt) is the class that creates the chain of handlers and calls the handleRequest method.
+[HandlerChain.kt](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/chainOfResponsibility/HandlerChain.kt) is the class that creates the chain of handlers and calls the handleRequest method.
 
 Code snippet from the HandlerChain.kt class:
 ```python
@@ -48,12 +48,12 @@ for (handler in paymentHandlers){
 
 
 ## Iterator
-I created a class [CollectionIterator](src/main/kotlin/iterator/CollectionIterator.kt) that implements the ProductIterator interface.
+I created a class [CollectionIterator](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/iterator/CollectionIterator.kt) that implements the ProductIterator interface.
 It has the following methods:
 - hasNext() - returns true if the collection has more elements
 - next() - returns the next element in the collection
 
-I created a new method in the [Collection](src/main/kotlin/composite/Collection.kt) class that returns a CollectionIterator object.
+I created a new method in the [Collection](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/composite/Collection.kt) class that returns a CollectionIterator object.
 ```python3
 // Create an iterator for the collection
 fun createIterator(): ProductIterator {
@@ -62,8 +62,8 @@ fun createIterator(): ProductIterator {
 ```
 
 ## Strategy
-I created an interface [DiscountStrategy](src/main/kotlin/interfaces/DiscountStrategy.kt) that has a method that returns the price for a product.
-Two concrete classes implement this interface: [NoDiscountStrategy](src/main/kotlin/strategy/NoDiscountStrategy.kt) and [PercentageDiscountStrategy](src/main/kotlin/strategy/PercentageDiscountStrategy.kt).
+I created an interface [DiscountStrategy](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/interfaces/DiscountStrategy.kt) that has a method that returns the price for a product.
+Two concrete classes implement this interface: [NoDiscountStrategy](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/strategy/NoDiscountStrategy.kt) and [PercentageDiscountStrategy](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/strategy/PercentageDiscountStrategy.kt).
 
 ```python
 class NoDiscountStrategy: DiscountStrategy {
