@@ -15,50 +15,62 @@ Author: *Țărnă Cristina*
 &ensp; &ensp; Some examples of from this category of design patterns are:
 
 * Chain of Responsibility
-*  
+* Iterator
+* Strategy
 
 
 ## Chain of Responsibility
+I created a class CreditCardHandler and PayPalHandler that implement the IPaymentHandler interface.
+[CreditCardHandler.kt](src/main/kotlin/chainOfResponsibility/CreditCardHandler.kt)
 ```python
- 
-```
-I adapted the Magazine class to the Book class, because they have the same attributes, but different names. I used the Adapter pattern to make the Magazine class compatible with the Book class.
-
-## Composite
-I created an interface Product, which is implemented by the Book and Magazine classes. 
-I used the Composite pattern to create a list of products, which can contain both books and magazines.
-```python
-class Collection(val name: String, private val products: MutableList<Product> = mutableListOf(), idGenerator: IIdGenerator): Product{
-    fun add(product: Product){
-        products.add(product)
+ class CreditCardHandler: IPaymentHandler() {
+    override fun handleRequest(amount: Double): Boolean {
+        if (amount <= 20) {
+            println("Credit Card processed the payment.")
+            return true
+        }
+        return false
     }
 }
 ```
-## Decorator
-I used the Decorator pattern to add a new functionality to the Book class. I created the posibility for a book to be signed by the author, wrapped or contain a note.
+[PayPalHandler.kt](src/main/kotlin/chainOfResponsibility/PayPalHandler.kt) is similar to the CreditCardHandler class.
 
+[HandlerChain.kt](src/main/kotlin/chainOfResponsibility/HandlerChain.kt) is the class that creates the chain of handlers and calls the handleRequest method.
+
+Code snippet from the HandlerChain.kt class:
 ```python
-class Note(book: Book, val name: String): Book(book.id, book.title, book.author, book.genre, book.language, book.price , book.numberOfPages, book.quantity, book.inStock, book.ageRate, book.description) {
-    override val price: Double
-        get() = super.price + 7.0
-    override val description: String
-        get() = super.description  + "\n This is a gift for " + name + "!"
+for (handler in paymentHandlers){
+    if (handler.handleRequest(amount)){
+        return true
+    }
+```
+
+
+
+## Iterator
+I created a class [CollectionIterator](src/main/kotlin/iterator/CollectionIterator.kt) that implements the ProductIterator interface.
+It has the following methods:
+- hasNext() - returns true if the collection has more elements
+- next() - returns the next element in the collection
+
+I created a new method in the [Collection](src/main/kotlin/composite/Collection.kt) class that returns a CollectionIterator object.
+```python3
+// Create an iterator for the collection
+fun createIterator(): ProductIterator {
+    return CollectionIterator(products)
 }
 ```
 
-## Facade
-I used the Facade pattern to create a CreateUserFacade class that will be used to access the functionalities of the system. 
+## Strategy
+I created an interface [DiscountStrategy](src/main/kotlin/interfaces/DiscountStrategy.kt) that has a method that returns the price for a product.
+Two concrete classes implement this interface: [NoDiscountStrategy](src/main/kotlin/strategy/NoDiscountStrategy.kt) and [PercentageDiscountStrategy](src/main/kotlin/strategy/PercentageDiscountStrategy.kt).
+
 ```python
-class CreateUserFacade(private val ui: UI, private val userFactory: UserFactory, private val userDatabase: IUserDatabase) {
-    fun addUser(): User {
-        val(name, pass) = ui.validateUser()
-        val user = userFactory.createUser("customer", name, pass)
-        println("User created successfully.")
-        // add user to database
-        userDatabase.addUser(user)
-        return user
+class NoDiscountStrategy: DiscountStrategy {
+    override fun applyDiscount(price: Double): Double {
+        return price
     }
 }
 ```
 ## Conclusions:
-In this laboratory work I studied and implemented 3 behavioural design patterns.
+In this laboratory work I studied and implemented 3 behavioural design patterns. I learned how to use them and when to use them. I also learned how to create a chain of handlers, how to create an iterator and how to use the strategy pattern. 
