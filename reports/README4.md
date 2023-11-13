@@ -21,7 +21,7 @@ Author: *Țărnă Cristina*
 
 ## Chain of Responsibility
 I created a class CreditCardHandler and PayPalHandler that implement the IPaymentHandler interface.
-[CreditCardHandler.kt](src/main/kotlin/chainOfResponsibility/CreditCardHandler.kt)
+[CreditCardHandler.kt](https://github.com/CristinaT21/TMPS_LABS/blob/314bb5accfa2d3c139181969db81a02b497d33e0/src/main/kotlin/chainOfResponsibility/CreditCardHandler.kt)
 ```python
  class CreditCardHandler: IPaymentHandler() {
     override fun handleRequest(amount: Double): Boolean {
